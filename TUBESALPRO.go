@@ -501,100 +501,34 @@ func sequentialSearchLokasi(X string) int {
 	return -1
 }
 
-func binarySearchNama(X string) int {
-	var med, kr, kn int
-	var found bool = false
-	kr = 0
-	kn = jumlah - 1
-
-	for kr <= kn && found == false {
-		med = (kr + kn) / 2
-		if daftar[med].nama < X {
-			kr = med + 1
-		} else if daftar[med].nama > X {
-			kn = med - 1
-		} else {
-			found = true
-		}
-	}
-
-	if found {
-		return med
-	} else {
-		return -1
-	}
-}
-
-func binarySearchLokasi(X string) int {
-	var med, kr, kn int
-	var found bool = false
-	kr = 0
-	kn = jumlah - 1
-
-	for kr <= kn && found == false {
-		med = (kr + kn) / 2
-		if daftar[med].lokasi < X {
-			kr = med + 1
-		} else if daftar[med].lokasi > X {
-			kn = med - 1
-		} else {
-			found = true
-		}
-	}
-
-	if found {
-		return med
-	} else {
-		return -1
-	}
-}
-
 func cariBerdasarkanNama() {
 	var nama string
-	var idxSeq, idxBin int
+	var idxSeq int
 	fmt.Print("Masukkan nama Co-working Space yang dicari: ")
 	fmt.Scan(&nama)
 
 	idxSeq = sequentialSearchNama(nama)
 	if idxSeq == -1 {
-		fmt.Println("Data tidak ditemukan (Sequential Search)")
+		fmt.Println("Data tidak ditemukan")
 	} else {
-		fmt.Println("Data ditemukan (Sequential Search):")
+		fmt.Println("Data ditemukan: ")
 		printData(daftar[idxSeq])
-	}
-
-	selectionSortNama()
-	idxBin = binarySearchNama(nama)
-	if idxBin == -1 {
-		fmt.Println("Data tidak ditemukan (Binary Search)")
-	} else {
-		fmt.Println("Data ditemukan (Binary Search):")
-		printData(daftar[idxBin])
 	}
 	menuCari()
 }
 
 func cariBerdasarkanLokasi() {
 	var lokasi string
-	var idxSeq, idxBin int
+	var idxSeq int
 	fmt.Print("Masukkan lokasi Co-working Space yang dicari: ")
 	fmt.Scan(&lokasi)
 
 	idxSeq = sequentialSearchLokasi(lokasi)
 	if idxSeq == -1 {
-		fmt.Println("Data tidak ditemukan (Sequential Search)")
+		fmt.Println("Data tidak ditemukan")
 	} else {
-		fmt.Println("Data ditemukan (Sequential Search):")
+		fmt.Println("Data ditemukan: ")
 		printData(daftar[idxSeq])
-	}
-
-	selectionSortLokasi()
-	idxBin = binarySearchLokasi(lokasi)
-	if idxBin == -1 {
-		fmt.Println("Data tidak ditemukan (Binary Search)")
-	} else {
-		fmt.Println("Data ditemukan (Binary Search):")
-		printData(daftar[idxBin])
 	}
 	menuCari()
 }
@@ -623,38 +557,6 @@ func menuUrutan() {
 		urutanBerdasarkanRating()
 	case 3:
 		dashBoard()
-	}
-}
-
-func selectionSortNama() {
-	var idx, i, j int
-	var temp CoWorking
-	for i = 0; i < jumlah-1; i++ {
-		idx = i
-		for j = i + 1; j < jumlah; j++ {
-			if daftar[j].nama < daftar[idx].nama {
-				idx = j
-			}
-		}
-		temp = daftar[i]
-		daftar[i] = daftar[idx]
-		daftar[idx] = temp
-	}
-}
-
-func selectionSortLokasi() {
-	var idx, i, j int
-	var temp CoWorking
-	for i = 0; i < jumlah-1; i++ {
-		idx = i
-		for j = i + 1; j < jumlah; j++ {
-			if daftar[j].lokasi < daftar[idx].lokasi {
-				idx = j
-			}
-		}
-		temp = daftar[i]
-		daftar[i] = daftar[idx]
-		daftar[idx] = temp
 	}
 }
 
