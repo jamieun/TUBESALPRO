@@ -31,7 +31,6 @@ func main() {
 	var jumData int
 
 	mainMenu(&dataPengguna, &jumUser, &daftar, &jumData)
-
 }
 
 func mainMenu(dataPengguna *[NMAX]Pengguna, jumUser *int, daftar *[MAX]CoWorking, jumData *int) {
@@ -152,8 +151,7 @@ func dashBoard(daftar *[MAX]CoWorking, jumlah *int) {
 }
 
 func menuTambah(daftar *[MAX]CoWorking, jumlah *int) {
-	var valid bool = true
-	for valid == true {
+	for {
 		fmt.Println("\n=== MENU TAMBAH ===")
 		fmt.Println("1. Tambah Data Co-working Space")
 		fmt.Println("2. Tambah Ulasan")
@@ -172,33 +170,27 @@ func menuTambah(daftar *[MAX]CoWorking, jumlah *int) {
 		case 3:
 			tambahRating(daftar, *jumlah)
 		case 4:
-			valid = false
+			dashBoard(daftar, jumlah)
 		}
 	}
 }
 
 func tambahCoWorking(daftar *[MAX]CoWorking, jumlah *int) {
 	var cws CoWorking
-	var i int
 
-	for i = 0; i < MAX; i++ {
-		if daftar[i].harga == 0 {
-			fmt.Println("\n=== TAMBAH DATA CO-WORKING SPACE ===")
-			fmt.Print("Nama: ")
-			fmt.Scan(&cws.nama)
-			fmt.Print("Lokasi: ")
-			fmt.Scan(&cws.lokasi)
-			fmt.Print("Fasilitas: ")
-			fmt.Scan(&cws.fasilitas)
-			fmt.Print("Harga sewa: ")
-			fmt.Scan(&cws.harga)
+	fmt.Println("\n=== TAMBAH DATA CO-WORKING SPACE ===")
+	fmt.Print("Nama: ")
+	fmt.Scan(&cws.nama)
+	fmt.Print("Lokasi: ")
+	fmt.Scan(&cws.lokasi)
+	fmt.Print("Fasilitas: ")
+	fmt.Scan(&cws.fasilitas)
+	fmt.Print("Harga sewa: ")
+	fmt.Scan(&cws.harga)
 
-			daftar[*jumlah] = cws
-			*jumlah++
-			fmt.Println("Data berhasil ditambah")
-			i = MAX
-		}
-	}
+	daftar[*jumlah] = cws
+	*jumlah++
+	fmt.Println("Data berhasil ditambah")
 }
 
 func tambahUlasan(daftar *[MAX]CoWorking, jumlah int) {
