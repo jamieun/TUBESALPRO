@@ -21,8 +21,8 @@ type Pengguna struct {
 
 var dataPengguna [NMAX]Pengguna
 var daftar [MAX]CoWorking
-var jumlahData int = 0
-var jumlahUser int = 0
+var jumData int = 0
+var jumUser int = 0
 
 func main() {
 	var dataPengguna [NMAX]Pengguna
@@ -53,7 +53,7 @@ func mainMenu(dataPengguna *[NMAX]Pengguna, jumUser *int, daftar *[MAX]CoWorking
 			fmt.Scan(&user)
 			fmt.Print("Password: ")
 			fmt.Scan(&pass)
-			isLogin = login(*dataPengguna, *jumUser, *daftar, *jumData, user, pass)
+			isLogin = login(*dataPengguna, *jumUser, user, pass)
 		} else if pilih == 2 {
 			isLogin = daftarBaru(dataPengguna, jumUser)
 		} else if pilih == 3 {
@@ -92,7 +92,7 @@ func daftarBaru(dataPengguna *[NMAX]Pengguna, jumlah *int) bool {
 	var valid bool = true
 
 	if *jumlah >= MAX {
-		fmt.Println("Data pengguna sudah penuh.")
+		fmt.Println("Data pengguna sudah penuh")
 	}
 
 	var user Pengguna
@@ -119,7 +119,7 @@ func daftarBaru(dataPengguna *[NMAX]Pengguna, jumlah *int) bool {
 	}
 }
 
-func login(dataPengguna [NMAX]Pengguna, jumlah int, daftar [MAX]CoWorking, jumData int, username string, password string) bool {
+func login(dataPengguna [NMAX]Pengguna, jumlah int, username string, password string) bool {
 	var i int
 	var berhasil bool = false
 
@@ -130,10 +130,10 @@ func login(dataPengguna [NMAX]Pengguna, jumlah int, daftar [MAX]CoWorking, jumDa
 	}
 
 	if berhasil {
-		fmt.Println("Login berhasil.")
+		fmt.Println("Login berhasil")
 		return berhasil
 	} else {
-		fmt.Println("Username atau Password salah.")
+		fmt.Println("Username atau Password salah")
 		return berhasil
 	}
 }
@@ -151,7 +151,8 @@ func dashBoard(daftar *[MAX]CoWorking, jumlah *int) {
 }
 
 func menuTambah(daftar *[MAX]CoWorking, jumlah *int) {
-	for {
+	var valid bool = true
+	for valid == true {
 		fmt.Println("\n=== MENU TAMBAH ===")
 		fmt.Println("1. Tambah Data Co-working Space")
 		fmt.Println("2. Tambah Ulasan")
@@ -170,7 +171,7 @@ func menuTambah(daftar *[MAX]CoWorking, jumlah *int) {
 		case 3:
 			tambahRating(daftar, *jumlah)
 		case 4:
-			dashBoard(daftar, jumlah)
+			valid = false
 		}
 	}
 }
@@ -189,7 +190,7 @@ func tambahCoWorking(daftar *[MAX]CoWorking, jumlah *int) {
 	fmt.Scan(&cws.harga)
 
 	daftar[*jumlah] = cws
-	*jumlah++
+	*jumlah = *jumlah + 1
 	fmt.Println("Data berhasil ditambah")
 }
 
@@ -236,7 +237,7 @@ func tambahRating(daftar *[MAX]CoWorking, jumlah int) {
 	}
 
 	if idx == -1 {
-		fmt.Println("Data tidak ditemukan.")
+		fmt.Println("Data tidak ditemukan")
 	} else {
 		for valid == false {
 			fmt.Print("Masukkan rating 1 - 5: ")
@@ -254,25 +255,28 @@ func tambahRating(daftar *[MAX]CoWorking, jumlah int) {
 }
 
 func menuUbah(daftar *[MAX]CoWorking, jumlah *int) {
-	fmt.Println("\n=== MENU UBAH ===")
-	fmt.Println("1. Ubah Data Co-Working Space")
-	fmt.Println("2. Ubah Ulasan")
-	fmt.Println("3. Ubah Rating")
-	fmt.Println("4. Kembali ke Dashboard")
-	fmt.Print("Pilih 1-4: ")
+	var valid bool = true
+	for valid == true {
+		fmt.Println("\n=== MENU UBAH ===")
+		fmt.Println("1. Ubah Data Co-Working Space")
+		fmt.Println("2. Ubah Ulasan")
+		fmt.Println("3. Ubah Rating")
+		fmt.Println("4. Kembali ke Dashboard")
+		fmt.Print("Pilih 1-4: ")
 
-	var pilih int
-	fmt.Scan(&pilih)
+		var pilih int
+		fmt.Scan(&pilih)
 
-	switch pilih {
-	case 1:
-		ubahCoWorking(daftar, *jumlah)
-	case 2:
-		ubahUlasan(daftar, *jumlah)
-	case 3:
-		ubahRating(daftar, *jumlah)
-	case 4:
-		dashBoard(daftar, jumlah)
+		switch pilih {
+		case 1:
+			ubahCoWorking(daftar, *jumlah)
+		case 2:
+			ubahUlasan(daftar, *jumlah)
+		case 3:
+			ubahRating(daftar, *jumlah)
+		case 4:
+			valid = false
+		}
 	}
 }
 
@@ -310,7 +314,7 @@ func ubahCoWorking(daftar *[MAX]CoWorking, jumlah int) {
 	fmt.Scan(&daftar[idx].fasilitas)
 	fmt.Print("Harga baru: ")
 	fmt.Scan(&daftar[idx].harga)
-	fmt.Println("Data berhasil diubah.")
+	fmt.Println("Data berhasil diubah")
 }
 
 func ubahUlasan(daftar *[MAX]CoWorking, jumlah int) {
@@ -329,7 +333,7 @@ func ubahUlasan(daftar *[MAX]CoWorking, jumlah int) {
 	}
 
 	if idx == -1 {
-		fmt.Println("Data tidak ditemukan.")
+		fmt.Println("Data tidak ditemukan")
 	}
 
 	fmt.Print("Ulasan baru: ")
@@ -354,7 +358,7 @@ func ubahRating(daftar *[MAX]CoWorking, jumlah int) {
 	}
 
 	if idx == -1 {
-		fmt.Println("Data tidak ditemukan.")
+		fmt.Println("Data tidak ditemukan")
 	}
 
 	var rating float64
@@ -375,25 +379,28 @@ func ubahRating(daftar *[MAX]CoWorking, jumlah int) {
 }
 
 func menuHapus(daftar *[MAX]CoWorking, jumlah *int) {
-	fmt.Println("\n=== MENU HAPUS ===")
-	fmt.Println("1. Hapus Data Co-working Space")
-	fmt.Println("2. Hapus Ulasan")
-	fmt.Println("3. Hapus Rating")
-	fmt.Println("4. Kembali ke Dashboard")
-	fmt.Print("Pilih 1-4: ")
+	var valid bool = true
+	for valid == true {
+		fmt.Println("\n=== MENU HAPUS ===")
+		fmt.Println("1. Hapus Data Co-working Space")
+		fmt.Println("2. Hapus Ulasan")
+		fmt.Println("3. Hapus Rating")
+		fmt.Println("4. Kembali ke Dashboard")
+		fmt.Print("Pilih 1-4: ")
 
-	var pilih int
-	fmt.Scan(&pilih)
+		var pilih int
+		fmt.Scan(&pilih)
 
-	switch pilih {
-	case 1:
-		hapusCoWorking(daftar, jumlah)
-	case 2:
-		hapusUlasan(daftar, jumlah)
-	case 3:
-		hapusRating(daftar, jumlah)
-	case 4:
-		dashBoard(daftar, jumlah)
+		switch pilih {
+		case 1:
+			hapusCoWorking(daftar, jumlah)
+		case 2:
+			hapusUlasan(daftar, jumlah)
+		case 3:
+			hapusRating(daftar, jumlah)
+		case 4:
+			valid = false
+		}
 	}
 }
 
@@ -471,10 +478,11 @@ func hapusRating(daftar *[MAX]CoWorking, jumlah *int) {
 }
 
 func menuCari(daftar *[MAX]CoWorking, jumlah int) {
+	var valid bool = true
 	var pilih int
 	var nama, lokasi, fasilitas string
 
-	for {
+	for valid == true {
 		fmt.Println("\n=== MENU CARI ===")
 		fmt.Println("1. Cari berdasarkan Nama")
 		fmt.Println("2. Cari berdasarkan Lokasi")
@@ -500,10 +508,10 @@ func menuCari(daftar *[MAX]CoWorking, jumlah int) {
 			fmt.Print("Masukkan fasilitas Co-working Space yang dicari: ")
 			fmt.Scan(&fasilitas)
 			if cariBerdasarkanFasilitas(daftar, jumlah, fasilitas) == false {
-				fmt.Println("Data tidak ditemukan.")
+				fmt.Println("Data tidak ditemukan")
 			}
 		case 4:
-			return
+			valid = false
 		}
 	}
 }
@@ -560,8 +568,9 @@ func printData(A CoWorking) {
 }
 
 func menuUrutan(daftar *[MAX]CoWorking, jumlah *int) {
+	var valid bool = true
 	var pilih int
-	for {
+	for valid == true {
 		fmt.Println("\n=== MENU URUTAN ===")
 		fmt.Println("1. Urutkan berdasarkan harga termurah")
 		fmt.Println("2. Urutkan berdasarkan harga termahal")
@@ -581,7 +590,7 @@ func menuUrutan(daftar *[MAX]CoWorking, jumlah *int) {
 		case 4:
 			urutanBerdasarkanRatingTertinggi(daftar, jumlah)
 		case 5:
-			dashBoard(daftar, jumlah)
+			valid = false
 		}
 	}
 }
@@ -680,8 +689,9 @@ func tampilkanSemuaData(daftar *[MAX]CoWorking, jumlah *int) {
 	for i = 0; i < *jumlah; i++ {
 		fmt.Println("Nama      :", daftar[i].nama)
 		fmt.Println("Lokasi    :", daftar[i].lokasi)
+		fmt.Println("Fasilitas :", daftar[i].fasilitas)
 		fmt.Println("Harga Sewa:", daftar[i].harga)
-		fmt.Println("Harga     :", daftar[i].harga)
+		fmt.Println("Ulasan    :", daftar[i].ulasan)
 		fmt.Println("Rating    :", daftar[i].rating)
 		fmt.Println("-----------------------------")
 	}
